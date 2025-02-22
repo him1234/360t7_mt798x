@@ -1,0 +1,38 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: configure
+      run: sudo bash -c 'bash <(curl -sL https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'
+
+    - name: mt7981
+      run: ./scripts/feeds update -a 
+    - name: mt7981 install
+      run: ./scripts/feeds install -a
+    - name: update
+      run: cp -f defconfig/mt7981-ax3000.config .config
+    - name: build
+      run: make -j$(nproc) -d
+      
+    - name: Run check
+      run: ls && sudo apt install zip
+
+    - name: Run distcheck
+      run:  zip -r -q -o out.zip *
+      
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v4.6.1
+      with: 
+            path: out.zip
