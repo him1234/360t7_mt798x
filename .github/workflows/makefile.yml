@@ -30,7 +30,7 @@ jobs:
       run: make clean
 
     - name: build
-      run: make -j$(nproc) 
+      run: make -j$(nproc) -V=s
       
     - name: Run check
       run: ls && sudo apt install zip
