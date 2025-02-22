@@ -22,7 +22,7 @@ jobs:
     - name: mt7981 install
       run: ./scripts/feeds install -a
     - name: update
-      run: cp -f defconfig/mt7981-ax3000.config .config
+      run: cp -f 360t7.config .config
     - name: build
       run: make -j$(nproc) -d
       
