@@ -19,12 +19,18 @@ jobs:
 
     - name: mt7981
       run: ./scripts/feeds update -a 
+      
     - name: mt7981 install
       run: ./scripts/feeds install -a
+      
+    - name: mt7981 clean
+      run: make clean
+      
     - name: update
       run: cp -f 360t7.config .config
+      
     - name: build
-      run: make -j$(nproc) -d
+      run: make -j$(nproc) 
       
     - name: Run check
       run: ls && sudo apt install zip
