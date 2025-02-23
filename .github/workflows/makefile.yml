@@ -29,9 +29,15 @@ jobs:
     - name: mt7981 clean
       run: make clean
 
-    - name: build
-      run: make -j$(nproc) V=s
-      
+    - name: build download
+      run: |
+            make defconfig
+            make download -j8
+    - name: build download
+      run: |
+            echo -e "$(nproc) thread compile"
+            make -j$(nproc) V=s|| make -j1 || make -j1 V=s
+    
     - name: Run check
       run: ls && sudo apt install zip
 
